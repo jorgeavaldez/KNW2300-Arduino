@@ -10,7 +10,7 @@ Requirements
 
 Depends on the RXTXRobot jar available at http://lyle.smu.edu/fyd/downloads.php
 
-Also requires the drivers for the Arduino Uno.
+Also requires the drivers for the Arduino Uno, also available at the above link.
 
 Disclaimer
 ==========
