@@ -5,7 +5,7 @@ import rxtxrobot.*;
 public class ArduinoMain 
 {
 	final static int BUMP_SENSOR = 1; //A1
-	final static int INFRARED_SENSOR = 0; //A0
+	final static int INFRARED_SENSOR = 12; //A0
 	final static int TURBIDITY_SENSOR = 4; //A4
 	final static int SALINITY_SENSOR = 5; //A5
 	
@@ -14,6 +14,8 @@ public class ArduinoMain
 	
 	final static int LEFT_MOTOR = RXTXRobot.MOTOR1; 
 	final static int RIGHT_MOTOR = RXTXRobot.MOTOR2; 
+	
+	final static int SERVO_HOME = 0;
 	
 	//D2 - Left Motor Encoder
 	//D3 - Right Motor Encoder
@@ -28,29 +30,78 @@ public class ArduinoMain
 		r.setVerbose(true);
 		r.connect();
 		
-		//Bullet 1
-		//Move forward for 90 Ticks
-		//Using it to measure how much 1 rotation gives us, and then determining how many ticks are 3 meters
-		r.runEncodedMotor(RXTXRobot.MOTOR1, 255, 90, RXTXRobot.MOTOR2, 255, 90);
+		r.attachServo(RXTXRobot.SERVO1, ARM_SERVO); //Connect the servo to the Arduino 
 		
-		r.attachServo(RXTXRobot.SERVO1, ARM_SERVO); //Connect the servos to the Arduino 
-		r.moveServo(RXTXRobot.SERVO1, 0);
+		//Move forward for 3 meters
+		//demo3MeterRun();
 		
-		/*
-		//Bullet 2
+		//r.sleep(3000);
+		
 		//Run for 500 ticks
-		r.runEncodedMotor(RXTXRobot.MOTOR1, -255, 500, RXTXRobot.MOTOR2, 255, 500);
+		//demo500TickRun();
 		
-		//Bullet 3
-		//
-		r.attachServo(RXTXRobot.SERVO1, ARM_SERVO); //Connect the servos to the Arduino 
+		//Run until bump
+		//demoMoveUntilBump();
 		
-		r.moveServo(RXTXRobot.SERVO1, 0); // Move
-		Servo 1 to location 0
-		r.moveServo(RXTXRobot.SERVO1, 90); // Move Servo 1 to location 90
-		r.moveServo(RXTXRobot.SERVO1, 180); // Move Servo 2 to location 180
-		*/
+		//r.sleep(3000);
+		
+		//Move servo to an angle
+		//demoServoMovement(45);
+		
+		//r.sleep(3000);
+		
+		//Infrared Sensing
+		//demoDistanceReading();
+		
+		//r.sleep(3000);
+		
+		//demoBumpSensor();
 		
 		r.close();
+	}
+	
+	public static void demo3MeterRun()
+	{
+		r.runMotor(RXTXRobot.MOTOR1, 500, 3350);
+	}
+	
+	public static void demo500TickRun()
+	{
+		r.runEncodedMotor(RXTXRobot.MOTOR1, 500, 500);
+	}
+	
+	//TODO: Fix move until bump.
+	public static void demoMoveUntilBump()
+	{
+		r.refreshAnalogPins();
+		
+		while(r.getAnalogPin(BUMP_SENSOR).getValue() <= 500)
+		{
+			r.runMotor(RXTXRobot.MOTOR1, 500, 1);
+		}
+			
+		r.runMotor(RXTXRobot.MOTOR1, 0, 0);
+	}
+	
+	public static void demoServoMovement(int angle)
+	{
+		r.moveServo(RXTXRobot.SERVO1, SERVO_HOME); // Move Servo 1 to home
+		r.sleep(3000);
+		r.moveServo(RXTXRobot.SERVO1, angle);
+		r.sleep(3000);
+		r.moveServo(RXTXRobot.SERVO1, SERVO_HOME);
+	}
+	
+	//TODO: Fix distance reading with new sensor.
+	public static void demoDistanceReading()
+	{	
+		r.refreshDigitalPins();
+		System.out.println("DISTANCE: " + r.getPing(INFRARED_SENSOR));
+	}
+	
+	public static void demoBumpSensor()
+	{
+		r.refreshAnalogPins();
+		System.out.println("BUMP: " + r.getAnalogPin(BUMP_SENSOR).getValue());
 	}
 }
