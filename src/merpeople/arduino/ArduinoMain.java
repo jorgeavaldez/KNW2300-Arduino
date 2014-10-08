@@ -5,7 +5,7 @@ import rxtxrobot.*;
 public class ArduinoMain 
 {
 	final static int BUMP_SENSOR = 1; //A1
-	final static int INFRARED_SENSOR = 12; //A0
+	final static int INFRARED_SENSOR = 13; //D13
 	final static int TURBIDITY_SENSOR = 4; //A4
 	final static int SALINITY_SENSOR = 5; //A5
 	
@@ -32,28 +32,38 @@ public class ArduinoMain
 		
 		r.attachServo(RXTXRobot.SERVO1, ARM_SERVO); //Connect the servo to the Arduino 
 		
+		//r.sleep(5000);
+		
 		//Move forward for 3 meters
 		//demo3MeterRun();
 		
-		//r.sleep(3000);
+		//r.sleep(5000);
 		
 		//Run for 500 ticks
 		//demo500TickRun();
 		
+		//r.sleep(5000);
+		
+		//Move servo to an angle
+		//demoServoMovement(45);
+		
+		//r.sleep(5000);
+		
 		//Run until bump
 		//demoMoveUntilBump();
 		
-		//r.sleep(3000);
+		//r.sleep(5000);
 		
 		//Move servo to an angle
 		//demoServoMovement(45);
 		
 		//r.sleep(3000);
 		
-		//Infrared Sensing
+		//TODO
+		//Distance Sensing
 		//demoDistanceReading();
 		
-		//r.sleep(3000);
+		//r.sleep(5000);
 		
 		//demoBumpSensor();
 		
@@ -72,15 +82,10 @@ public class ArduinoMain
 	
 	//TODO: Fix move until bump.
 	public static void demoMoveUntilBump()
-	{
+	{		
 		r.refreshAnalogPins();
-		
-		while(r.getAnalogPin(BUMP_SENSOR).getValue() <= 500)
-		{
-			r.runMotor(RXTXRobot.MOTOR1, 500, 1);
-		}
 			
-		r.runMotor(RXTXRobot.MOTOR1, 0, 0);
+		r.runMotor(RXTXRobot.MOTOR1, 500, 0);
 	}
 	
 	public static void demoServoMovement(int angle)
@@ -101,7 +106,8 @@ public class ArduinoMain
 	
 	public static void demoBumpSensor()
 	{
-		r.refreshAnalogPins();
-		System.out.println("BUMP: " + r.getAnalogPin(BUMP_SENSOR).getValue());
+		r.refreshDigitalPins();
+		for (int i = 0; i < 50; i++)
+			System.out.println("BUMP: " + r.getDigitalPin(12).getValue());
 	}
 }
