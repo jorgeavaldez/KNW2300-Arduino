@@ -45,12 +45,12 @@ public class ArduinoMain
 		//r.sleep(5000);
 		
 		//Move servo to an angle
-		//demoServoMovement(45);
+		//demoServoMovement(140);
 		
 		//r.sleep(5000);
 		
 		//Run until bump
-		//demoMoveUntilBump();
+		r.runEncodedMotor(RXTXRobot.MOTOR1, 500, 5000);
 		
 		//r.sleep(5000);
 		
@@ -59,7 +59,7 @@ public class ArduinoMain
 		
 		//r.sleep(3000);
 		
-		//TODO
+		//TODO - AVERAGE READINGS
 		//Distance Sensing
 		//demoDistanceReading();
 		
