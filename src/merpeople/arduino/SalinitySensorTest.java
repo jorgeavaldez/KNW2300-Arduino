@@ -39,7 +39,7 @@ public class SalinitySensorTest
 	
 	static RXTXRobot robot = new ArduinoNano();
 	
-	public static void main(String[] args) 
+	public static void main(String[] args) throws Exception
 	{
 		robot.setPort("COM5");
 		robot.setVerbose(true);
@@ -51,7 +51,10 @@ public class SalinitySensorTest
 		
 		robot.refreshAnalogPins();
 		robot.refreshDigitalPins();
-		// TODO Auto-generated method stub
+		
+		double roundedSalinity = 0;
+		
+		calibrateSalinitySensor(roundedSalinity);
 
 	}
 	
