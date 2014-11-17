@@ -1,8 +1,9 @@
 package merpeople.arduino;
 
 import rxtxrobot.*;
+import merpeople.arduino.SalinitySensor;
 
-public class ArduinoMain 
+public class Sprint2CodeDemo 
 {
 	final static int BUMP_SENSOR = 1; //A1
 	final static int INFRARED_SENSOR = 13; //D13
@@ -30,6 +31,11 @@ public class ArduinoMain
 		r.setVerbose(true);
 		r.connect();
 		
+		r.refreshAnalogPins();
+		
+		for (int i = 0; i < 100; i++)
+			System.out.println(r.getPing(7));
+		
 		r.attachServo(RXTXRobot.SERVO1, ARM_SERVO); //Connect the servo to the Arduino 
 		
 		//r.sleep(5000);
@@ -40,7 +46,7 @@ public class ArduinoMain
 		//r.sleep(5000);
 		
 		//Run for 500 ticks
-		//demo500TickRun();
+		demo500TickRun();
 		
 		//r.sleep(5000);
 		
@@ -50,7 +56,7 @@ public class ArduinoMain
 		//r.sleep(5000);
 		
 		//Run until bump
-		r.runEncodedMotor(RXTXRobot.MOTOR1, 500, 5000);
+		//r.runEncodedMotor(RXTXRobot.MOTOR1, 500, 5000);
 		
 		//r.sleep(5000);
 		
@@ -72,12 +78,26 @@ public class ArduinoMain
 	
 	public static void demo3MeterRun()
 	{
+		//r.runMotor(RXTXRobot.MOTOR1, 500, 3350);
+		
 		r.runMotor(RXTXRobot.MOTOR1, 500, 3350);
+		r.runMotor(RXTXRobot.MOTOR2, -500, 3350);
 	}
 	
 	public static void demo500TickRun()
 	{
-		r.runEncodedMotor(RXTXRobot.MOTOR1, 500, 500);
+		//r.refreshAnalogPins();
+		
+		while (r.getPing(7) > 40)
+		{
+			r.runMotor(RXTXRobot.MOTOR1, 250, RXTXRobot.MOTOR2, -250, 0);
+		}
+		
+		r.runMotor(RXTXRobot.MOTOR1,0,RXTXRobot.MOTOR2,0,0);
+		
+		//r.runMotor(RXTXRobot.MOTOR1, 250, RXTXRobot.MOTOR2, -250, 10000);
+		
+		//r.runEncodedMotor(RXTXRobot.MOTOR2, 500, 100);
 	}
 	
 	//TODO: Fix move until bump.
